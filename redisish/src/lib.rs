@@ -22,7 +22,7 @@ pub fn parse(input: &str) -> Result<Command, Error> {
 
     if let Some((command, message)) = input.split_once(" ") {
         if command == "PUBLISH" {
-            return Ok(Command::Publish(String::from(message)));
+            return Ok(Command::Publish(String::from(message.trim_end())));
         }
     };
 
@@ -39,7 +39,8 @@ mod tests {
         let command = parse(&input);
         assert!(command.is_ok());
         if let Ok(Command::Publish(message)) = command {
-            assert_eq!(message, "my message\n");
+            // Ensure the new line at the end is removed
+            assert_eq!(message, "my message");
         } else {
             assert!(false);
         }
